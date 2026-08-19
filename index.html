@@ -26,7 +26,7 @@
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="#" id="twitter-url">
     <meta property="twitter:title" content="Domain for Sale - Premium Domain" id="twitter-title">
-    <meta property="twitter:description" content="Premium domain name for sale. Perfect for e-commerce, online store, business. Contact us to purchase this valuable domain." id="twitter-description">>
+    <meta property="twitter:description" content="Premium domain name for sale. Perfect for e-commerce, online store, business. Contact us to purchase this valuable domain." id="twitter-description">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232c3e50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial, sans-serif' font-size='18' font-weight='bold' fill='white'%3EX%3C/text%3E%3C/svg%3E">
@@ -222,16 +222,16 @@
 <body>
     <div class="container">
         <header>
-            <!-- <h1 class="domain" id="domain-name">Loading...</h1> -->
+            <h1 class="domain" id="domain-name">Loading...</h1>
             <p class="for-sale">Premium Domain for Sale</p>
         </header>
         
         <main>
-            <!-- <p class="description" id="description">
+            <p class="description" id="description">
                 Secure this premium domain name perfect for e-commerce businesses, online stores, and digital marketplaces.
             </p>
-             -->
-            <!-- <div class="features">
+            
+            <div class="features">
                 <h2 id="features-title">Why Choose This Domain?</h2>
                 <ul>
                     <li>Short, memorable, and brandable domain name</li>
@@ -241,7 +241,7 @@
                     <li>Professional and trustworthy brand image</li>
                     <li>Immediate transfer available</li>
                 </ul>
-            </div> -->
+            </div>
             
             <div class="divider"></div>
             
@@ -250,29 +250,32 @@
                 <div class="contact-info">
                     Email: <a href="mailto:rezikolive@gmail.com" title="Contact domain owner">rezikolive@gmail.com</a>
                 </div>
-                <a href="mailto:rezikolive@gmail.com?subject=Interest in Domain&body=Hello,%0D%0A%0D%0AI am interested in purchasing this domain. Please provide more information about pricing and transfer process.%0D%0A%0D%0AThank you." class="cta-button" id="cta-button">Contact Now</a>
+                <a href="#" class="cta-button" id="cta-button">Contact Now</a>
             </section>
         </main>
     </div>
     
     <script>
         // Get the current domain name automatically
-        const domainName = window.location.hostname;
+        const domainName = window.location.hostname || "example.com";
         
-        // Update all elements that need the actual domain name
         document.addEventListener('DOMContentLoaded', function() {
-            // Update domain name display
+            // Update domain name display safely
             const domainElement = document.getElementById('domain-name');
-            domainElement.textContent = domainName;
+            if (domainElement) domainElement.textContent = domainName;
             
             // Update page title
             document.getElementById('page-title').textContent = `${domainName} Domain for Sale - Premium Domain | Buy ${domainName}`;
             document.title = `${domainName} Domain for Sale - Premium Domain | Buy ${domainName}`;
             
-            // Update meta tags
+            // Update meta tags safely
             document.getElementById('meta-title').content = `${domainName} Domain for Sale - Premium Domain | Buy ${domainName}`;
             document.getElementById('meta-description').content = `${domainName} premium domain name for sale. Perfect for e-commerce, online store, business. Contact rezikolive@gmail.com to purchase this valuable domain.`;
-            document.getElementById('meta-keywords').content = `${domainName}, domain for sale, premium domain, buy domain, ${domainName.split('.')[0]}, ${domainName.split('.').pop()} domain`;
+            
+            const keywordsTag = document.getElementById('meta-keywords');
+            if (keywordsTag && domainName.includes('.')) {
+                keywordsTag.content = `${domainName}, domain for sale, premium domain, buy domain, ${domainName.split('.')[0]}, ${domainName.split('.').pop()} domain`;
+            }
             
             // Update URLs
             const domainUrl = `https://${domainName}/`;
@@ -289,28 +292,33 @@
             
             // Update structured data
             const structuredDataElement = document.getElementById('structured-data');
-            const data = JSON.parse(structuredDataElement.textContent);
-            data.name = `${domainName} Domain Name`;
-            data.description = `Premium domain name ${domainName} for sale. Perfect for e-commerce and online businesses.`;
-            data.brand.name = domainName;
-            data.url = domainUrl;
-            structuredDataElement.textContent = JSON.stringify(data, null, 2);
+            if (structuredDataElement) {
+                try {
+                    const data = JSON.parse(structuredDataElement.textContent);
+                    data.name = `${domainName} Domain Name`;
+                    data.description = `Premium domain name ${domainName} for sale. Perfect for e-commerce and online businesses.`;
+                    data.brand.name = domainName;
+                    data.url = domainUrl;
+                    structuredDataElement.textContent = JSON.stringify(data, null, 2);
+                } catch (e) {
+                    console.error("Error parsing structured data JSON");
+                }
+            }
             
-            // Update features title with actual domain
+            // Update features title safely
             const featuresTitle = document.getElementById('features-title');
-            featuresTitle.textContent = `Why Choose ${domainName}?`;
+            if (featuresTitle) featuresTitle.textContent = `Why Choose ${domainName}?`;
             
-            // Update CTA button email subject with actual domain
+            // Generate Dynamic Email Link
             const ctaButton = document.getElementById('cta-button');
-            const currentHref = ctaButton.getAttribute('href');
-            const updatedHref = currentHref.replace(
-                'subject=Interest in Domain',
-                `subject=Interest in ${domainName} Domain`
-            ).replace(
-                'purchasing this domain',
-                `purchasing the ${domainName} domain`
-            );
-            ctaButton.setAttribute('href', updatedHref);
+            if (ctaButton) {
+                const emailAddress = "rezikolive@gmail.com";
+                const emailSubject = `Interest in ${domainName} Domain`;
+                const emailBody = `Hello,\n\nI am interested in purchasing the ${domainName} domain. Please provide more information about pricing and the transfer process.\n\nThank you.`;
+                
+                // Build the mailto link cleanly using encodeURIComponent
+                ctaButton.setAttribute('href', `mailto:${emailAddress}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
+            }
         });
     </script>
 </body>
